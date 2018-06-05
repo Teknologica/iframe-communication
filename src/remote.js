@@ -17,7 +17,7 @@ window.Foobar = function () {
         this.iframe = iframe;
     };
 
-    Element.createIframe = function (url, style, id) {
+    Element.createIframe = function (url, style, name) {
         const iframe = document.createElement('iframe');
         const appliedStyle = style || 'background: transparent; width: 100%; height: 100%;';
         iframe.setAttribute('src', url);
@@ -26,6 +26,8 @@ window.Foobar = function () {
         iframe.setAttribute('frameborder', '0');
         iframe.setAttribute('scrolling', 'no');
         iframe.setAttribute('style', appliedStyle);
+        iframe.setAttribute('name', name);
+        //TODO handle names
 
         return iframe;
     };
@@ -39,6 +41,9 @@ window.Foobar = function () {
         const controller = Element.createIframe(getRemote('link'), 'width:0;height:0');
         document.body.appendChild(controller);
         this.controller = controller;
+        controller.onload = function() {
+          console.log('controller is ready');
+        };
 
         window.addEventListener('message', this.relay, false);
     };
@@ -60,7 +65,11 @@ window.Foobar = function () {
 
     Foobar.prototype.register = function (element) {
         this.mounted.push(element);
-        this.controller.contentWindow.postMessage('register', '*');
+        const self = this;
+        element.iframe.onload = function() {
+            console.log('field is ready, sending message');
+            self.controller.contentWindow.postMessage('hey there', '*');
+        };
     };
 
     return new Foobar();
