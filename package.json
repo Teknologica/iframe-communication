@@ -1,0 +1,16 @@
+{
+  "name": "iframe-communication",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+      "serve": "node index.js"
+  },
+  "repository": "https://github.com/Teknologica/iframe-communication.git",
+  "author": "Andrei Moldoveanu <andrei@ilabsinc.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.3",
+    "serve-static": "^1.13.2"
+  }
+}
