@@ -8,7 +8,8 @@
 <script>
     (function () {
         window.addEventListener('message', function (evt) {
-            evt.source.postMessage('got register', event.origin);
+            evt.source.postMessage('got register evt.source', event.origin);
+            window.parent.postMessage('got register window.parent', event.origin);
         }, false);
     })();
 </script>
