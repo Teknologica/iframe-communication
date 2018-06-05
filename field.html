@@ -16,7 +16,9 @@
 </div>
 <script>
     (function(){
-        
+        document.querySelector('#inner-field').addEventListener('click', function() {
+            window.parent.postMessage('click on field', '*');
+        });
     })();
 </script>
 </body>
