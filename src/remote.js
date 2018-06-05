@@ -10,7 +10,6 @@ window.Foobar = function () {
         parent.setAttribute('data-foobar-internal', target.getAttribute('data-foobar'));
         const iframe = Element.createIframe(getRemote('field'));
         parent.className = 'foobar-outer-element';
-        parent.setAttribute('data-foobar-internal', target.getAttribute('data-foobar'));
         target.appendChild(parent);
         parent.appendChild(iframe);
 
@@ -18,7 +17,7 @@ window.Foobar = function () {
         this.iframe = iframe;
     };
 
-    Element.createIframe = function(url, style, id) {
+    Element.createIframe = function (url, style, id) {
         const iframe = document.createElement('iframe');
         const appliedStyle = style || 'background: transparent; width: 100%; height: 100%;';
         iframe.setAttribute('src', url);
@@ -33,12 +32,19 @@ window.Foobar = function () {
 
     const Foobar = function () {
         this.mounted = [];
+        this.controller = null;
     };
 
     Foobar.prototype.prepare = function () {
         const controller = Element.createIframe(getRemote('link'), 'width:0;height:0');
         document.body.appendChild(controller);
-        this.controller = controller
+        this.controller = controller;
+
+        window.addEventListener('message', this.relay, false);
+    };
+
+    Foobar.prototype.relay = function (evt) {
+        console.log('Relaying: ' + evt.data);
     };
 
     Foobar.prototype.mount = function (target) {
@@ -54,6 +60,7 @@ window.Foobar = function () {
 
     Foobar.prototype.register = function (element) {
         this.mounted.push(element);
+        this.controller.contentWindow.postMessage('register', '*');
     };
 
     return new Foobar();

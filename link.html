@@ -5,6 +5,12 @@
     <title>Link</title>
 </head>
 <body>
-
+<script>
+    (function () {
+        window.addEventListener('message', function (evt) {
+            evt.source.postMessage('got register', event.origin);
+        }, false);
+    })();
+</script>
 </body>
 </html>
