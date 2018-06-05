@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Masterpage</title>
+    <style>
+        .foobar-outer-element {
+            height: 3em
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>MasterPage</h1>
-        <form>
-            <div>
-                <label for="first-name">First Name</label>
-                <input id="first-name" data-foobar="firstName">
-            </div>
-            <div>
-                <label for="card-mount-point">Payment Card</label>
-                <div id="card-mount-point" data-foobar="pan"></div>
-            </div>
-            <div>
-                <label for="cvv-mount-point">CVV</label>
-                <div id="cvv-mount-point" data-foobar="cvv"></div>
-            </div>
-        </form>
-    </div>
+<div>
+    <h1>MasterPage</h1>
+    <form>
+        <div>
+            <label for="first-name">First Name</label>
+            <input id="first-name" data-foobar="firstName">
+        </div>
+        <div>
+            <label for="card-mount-point">Payment Card</label>
+            <div id="card-mount-point" data-foobar="pan"></div>
+        </div>
+        <div>
+            <label for="cvv-mount-point">CVV</label>
+            <div id="cvv-mount-point" data-foobar="cvv"></div>
+        </div>
+    </form>
+</div>
+<script src="src/remote.js"></script>
+<script>
+    (function () {
+        const card = Foobar.mount('#card-mount-point');
+        const cvv = Foobar.mount('#cvv-mount-point');
+    })();
+</script>
 </body>
 </html>
