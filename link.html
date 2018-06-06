@@ -14,10 +14,10 @@
         const registeredRemotes = [];
         let payload = [];
         window.addEventListener('message', function (evt) {
-            evt.source.postMessage('controller register evt.source: ' + evt.data, event.origin);
+            // evt.source.postMessage('controller register evt.source: ' + evt.data, event.origin);
             if (evt.data.indexOf(prefix.register) === 0) {
                 registeredRemotes.push(evt.data.replace(prefix.register, ''));
-                evt.source.postMessage('controller cache: ' + JSON.stringify(registeredRemotes), event.origin);
+                // evt.source.postMessage('controller cache: ' + JSON.stringify(registeredRemotes), event.origin);
             }
             else if (evt.data === 'process') {
                 payload = [];
@@ -26,7 +26,7 @@
                 });
             } else if (evt.data.indexOf(prefix.input) === 0) {
                 payload.push(evt.data.replace(prefix.input, ''));
-                window.parent.postMessage('controller got input: ' + evt.data, '*');
+                // window.parent.postMessage('controller got input: ' + evt.data, '*');
                 if (payload.length === registeredRemotes.length) {
                     window.parent.postMessage('payload: ' + JSON.stringify(payload), '*');
                 }
