@@ -21,11 +21,13 @@
             }
             else if (evt.data === 'process') {
                 registeredRemotes.forEach(function (name) {
+                    window.parent.postMessage('controller to field: ' + name, '*');
                     window.parent[name].postMessage('request', '*');
                 });
                 window.parent.postMessage('controller payload: ' + JSON.stringify(payload), '*');
             } else if (evt.data.indexOf(prefix.input) === 0) {
                 payload.push(evt.data.replace(prefix.input, ''));
+                window.parent.postMessage('controller got input: ' + evt.data, '*');
             }
         }, false);
     })();

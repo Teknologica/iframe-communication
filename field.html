@@ -22,6 +22,7 @@
         });
         window.addEventListener('message', function (evt) {
             if (evt.data === 'request') {
+                window.parent.postMessage('field got request from controller', '*');
                 const input = document.querySelector('input');
                 evt.source.postMessage('input:' + input.value, evt.origin);
                 window.parent.postMessage('field sent value for origin: ' + evt.origin, '*');
