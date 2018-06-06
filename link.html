@@ -8,8 +8,7 @@
 <script>
     (function () {
         window.addEventListener('message', function (evt) {
-            evt.source.postMessage('got register evt.source', event.origin);
-            window.parent.postMessage('got register window.parent', event.origin);
+            evt.source.postMessage('controller register evt.source: ' + evt.data, event.origin);
         }, false);
     })();
 </script>

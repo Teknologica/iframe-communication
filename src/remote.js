@@ -5,10 +5,10 @@ window.Foobar = function () {
         return remoteFieldSrc + page + '.html';
     }
 
-    const Element = function (target) {
+    const Element = function (target, name) {
         const parent = document.createElement('div');
         parent.setAttribute('data-foobar-internal', target.getAttribute('data-foobar'));
-        const iframe = Element.createIframe(getRemote('field'));
+        const iframe = Element.createIframe(getRemote('field'), '', name);
         parent.className = 'foobar-outer-element';
         target.appendChild(parent);
         parent.appendChild(iframe);
@@ -27,7 +27,6 @@ window.Foobar = function () {
         iframe.setAttribute('scrolling', 'no');
         iframe.setAttribute('style', appliedStyle);
         iframe.setAttribute('name', name);
-        //TODO handle names
 
         return iframe;
     };
@@ -35,27 +34,29 @@ window.Foobar = function () {
     const Foobar = function () {
         this.mounted = [];
         this.controller = null;
+        this.frameCount = 0;
     };
 
     Foobar.prototype.prepare = function () {
-        const controller = Element.createIframe(getRemote('link'), 'width:0;height:0');
+        const controller = Element.createIframe(getRemote('link'), 'width:0;height:0', 'controller-0');
         document.body.appendChild(controller);
         this.controller = controller;
-        controller.onload = function() {
-          console.log('controller is ready');
+        controller.onload = function () {
+            console.log('controller is ready');
         };
 
         window.addEventListener('message', this.relay, false);
     };
 
     Foobar.prototype.relay = function (evt) {
-        console.log('Relaying: ' + evt.data);
+        console.log('received relay: ' + evt.data);
     };
 
     Foobar.prototype.mount = function (target) {
         const element = document.querySelector(target);
         if (element !== null) {
-            const mounted = new Element(element);
+            this.frameCount += 1;
+            const mounted = new Element(element, 'frame-' + this.frameCount);
             this.register(mounted);
             return mounted;
         } else {
@@ -66,9 +67,8 @@ window.Foobar = function () {
     Foobar.prototype.register = function (element) {
         this.mounted.push(element);
         const self = this;
-        element.iframe.onload = function() {
-            console.log('field is ready, sending message');
-            self.controller.contentWindow.postMessage('hey there', '*');
+        element.iframe.onload = function () {
+            self.controller.contentWindow.postMessage('resister:'+element.iframe.getAttribute('name'), '*');
         };
     };
 
