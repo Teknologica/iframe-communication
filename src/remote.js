@@ -68,8 +68,12 @@ window.Foobar = function () {
         this.mounted.push(element);
         const self = this;
         element.iframe.onload = function () {
-            self.controller.contentWindow.postMessage('register:'+element.iframe.getAttribute('name'), '*');
+            self.controller.contentWindow.postMessage('register:' + element.iframe.getAttribute('name'), '*');
         };
+    };
+
+    Foobar.prototype.process = function () {
+        this.controller.contentWindow.postMessage('process', '*');
     };
 
     return new Foobar();

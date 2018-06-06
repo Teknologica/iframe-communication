@@ -25,14 +25,22 @@
             <label for="cvv-mount-point">CVV</label>
             <div id="cvv-mount-point" data-foobar="cvv"></div>
         </div>
+        <div>
+            <button>Test</button>
+        </div>
     </form>
 </div>
 <script src="src/remote.js"></script>
 <script>
     (function () {
+        const btn = document.querySelector('button');
         Foobar.prepare();
         const card = Foobar.mount('#card-mount-point');
         const cvv = Foobar.mount('#cvv-mount-point');
+        btn.addEventListener('click', function(evt) {
+            Foobar.process();
+            evt.preventDefault();
+        });
     })();
 </script>
 </body>

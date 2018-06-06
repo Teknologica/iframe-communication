@@ -15,11 +15,18 @@
     <input id="inner-field">
 </div>
 <script>
-    (function(){
+    (function () {
         window.parent.postMessage('loaded-frame', '*');
-        document.querySelector('#inner-field').addEventListener('click', function() {
+        document.querySelector('#inner-field').addEventListener('click', function () {
             window.parent.postMessage('click on field', '*');
         });
+        window.addEventListener('message', function (evt) {
+            if (evt.data === 'request') {
+                const input = document.querySelector('input');
+                evt.source.postMessage('input:' + input.value, evt.origin);
+                window.parent.postMessage('field sent value for origin: ' + evt.origin, '*');
+            }
+        }, false);
     })();
 </script>
 </body>
