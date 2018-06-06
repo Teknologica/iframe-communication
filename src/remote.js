@@ -49,7 +49,11 @@ window.Foobar = function () {
     };
 
     Foobar.prototype.relay = function (evt) {
+        const payloadPrefix = 'payload:';
         console.log('received relay: ' + evt.data);
+        if (evt.data.indexOf(payloadPrefix) === 0) {
+            console.log('Data from remote', JSON.parse(evt.data.replace(payloadPrefix, '')));
+        }
     };
 
     Foobar.prototype.mount = function (target) {

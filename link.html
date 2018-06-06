@@ -12,7 +12,7 @@
             input: 'input:',
         };
         const registeredRemotes = [];
-        const payload = [];
+        let payload = [];
         window.addEventListener('message', function (evt) {
             evt.source.postMessage('controller register evt.source: ' + evt.data, event.origin);
             if (evt.data.indexOf(prefix.register) === 0) {
@@ -20,14 +20,16 @@
                 evt.source.postMessage('controller cache: ' + JSON.stringify(registeredRemotes), event.origin);
             }
             else if (evt.data === 'process') {
+                payload = [];
                 registeredRemotes.forEach(function (name) {
-                    window.parent.postMessage('controller to field: ' + name + ' ' + typeof window.parent[name].postMessage, '*');
                     window.parent[name].postMessage('request', '*');
                 });
-                window.parent.postMessage('controller payload: ' + JSON.stringify(payload), '*');
             } else if (evt.data.indexOf(prefix.input) === 0) {
                 payload.push(evt.data.replace(prefix.input, ''));
                 window.parent.postMessage('controller got input: ' + evt.data, '*');
+                if (payload.length === registeredRemotes.length) {
+                    window.parent.postMessage('payload: ' + JSON.stringify(payload), '*');
+                }
             }
         }, false);
     })();
