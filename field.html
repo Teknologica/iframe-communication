@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <input id="inner-field">
+    <input id="inner-field" autocomplete="off">
 </div>
 <script>
     (function () {
@@ -22,7 +22,7 @@
         });
         window.addEventListener('message', function (evt) {
             if (evt.data === 'request' && evt.origin === 'https://teknologica.github.io') {
-                // window.parent.postMessage('field got request from controller', '*');
+                // window.parent.postMessage('field got request from controller',  );
                 const input = document.querySelector('input');
                 evt.source.postMessage('input:' + input.value, evt.origin);
                 // window.parent.postMessage('field sent value for origin: ' + evt.origin, '*');
