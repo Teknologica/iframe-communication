@@ -21,7 +21,7 @@
             }
             else if (evt.data === 'process') {
                 registeredRemotes.forEach(function (name) {
-                    window.parent.postMessage('controller to field: ' + name, '*');
+                    window.parent.postMessage('controller to field: ' + name + ' ' + typeof window.parent[name].postMessage, '*');
                     window.parent[name].postMessage('request', '*');
                 });
                 window.parent.postMessage('controller payload: ' + JSON.stringify(payload), '*');
