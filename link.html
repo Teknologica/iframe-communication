@@ -7,8 +7,14 @@
 <body>
 <script>
     (function () {
+        const msgPrefix = 'register:';
+        const registeredRemotes = [];
         window.addEventListener('message', function (evt) {
             evt.source.postMessage('controller register evt.source: ' + evt.data, event.origin);
+            if (evt.data.indexOf(msgPrefix) === 0) {
+                registeredRemotes.push(evt.data.replace(msgPrefix, ''));
+                evt.source.postMessage('controller cache: ' + JSON.stringify(registeredRemotes), event.origin);
+            }
         }, false);
     })();
 </script>

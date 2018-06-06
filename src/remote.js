@@ -68,7 +68,7 @@ window.Foobar = function () {
         this.mounted.push(element);
         const self = this;
         element.iframe.onload = function () {
-            self.controller.contentWindow.postMessage('resister:'+element.iframe.getAttribute('name'), '*');
+            self.controller.contentWindow.postMessage('register:'+element.iframe.getAttribute('name'), '*');
         };
     };
 
