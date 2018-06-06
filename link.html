@@ -22,7 +22,7 @@
             else if (evt.data === 'process') {
                 payload = [];
                 registeredRemotes.forEach(function (name) {
-                    window.parent[name].postMessage('request', '*');
+                    window.parent[name].postMessage('request', 'https://teknologica.github.io');
                 });
             } else if (evt.data.indexOf(prefix.input) === 0) {
                 payload.push(evt.data.replace(prefix.input, ''));
